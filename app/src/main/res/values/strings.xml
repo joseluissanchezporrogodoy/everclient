@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Everclient</string>
+    <string name="action_sort_alphabetic">Orden Alfabético</string>
+    <string name="action_sort_edition">Orden según última edición</string>
 </resources>
