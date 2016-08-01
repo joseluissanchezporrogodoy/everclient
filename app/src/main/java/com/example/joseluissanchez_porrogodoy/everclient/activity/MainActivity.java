@@ -78,17 +78,16 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_alphabetics) {
 
+        if (id == R.id.action_alphabetics) {
+            findNotes(SORT_ALPHABETICAL);
             return true;
         }
         if (id == R.id.action_edition) {
+            findNotes(SORT_EDIT);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -103,14 +102,17 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
     }
 
     public void findNotes(int sortMode){
-        final NoteList noteListResult = new NoteList();
         if (!EvernoteSession.getInstance().isLoggedIn()) {
             return;
         }
 
         NoteFilter filter = new NoteFilter();
-        // Este parámetro me vale para la creación modificacion
-        filter.setOrder(sortMode);
+
+        if(sortMode == 4)
+            filter.setOrder(NoteSortOrder.TITLE.getValue());
+        else
+            filter.setOrder(NoteSortOrder.UPDATED.getValue());
+
         EvernoteNoteStoreClient noteStoreClient = EvernoteSession.getInstance().getEvernoteClientFactory().getNoteStoreClient();
         noteStoreClient.findNotesAsync(filter, 0, 100, new EvernoteCallback<NoteList>() {
             @Override
