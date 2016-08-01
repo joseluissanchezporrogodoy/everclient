@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
     private NoteListAdapter adapter;
     public static final int SORT_ALPHABETICAL = 4;
     public static final int SORT_EDIT = 2;
+    private static final int REQUEST_CODE_ADD=10;
+
     public static void launch(Activity activity) {
         activity.startActivity(new Intent(activity, MainActivity.class));
     }
@@ -61,12 +63,14 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
         setContentView(R.layout.activity_main);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        //.setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+                startActivityForResult(intent,REQUEST_CODE_ADD);
             }
         });
         if (!EvernoteSession.getInstance().isLoggedIn()) {
@@ -127,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
         else
             filter.setOrder(NoteSortOrder.UPDATED.getValue());
 
+
         EvernoteNoteStoreClient noteStoreClient = EvernoteSession.getInstance().getEvernoteClientFactory().getNoteStoreClient();
         noteStoreClient.findNotesAsync(filter, 0, 100, new EvernoteCallback<NoteList>() {
             @Override
@@ -177,6 +182,20 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
        return null;
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Comprobamos que el codigo de resultado es OK
+        if (resultCode == RESULT_OK) {
+            //En funcion del request code que introdujimos la respuesta sera de un tipo u otro
+            switch (requestCode) {
+                case REQUEST_CODE_ADD: {
+                    ////Recargar Lista
+                    findNotes(SORT_ALPHABETICAL);
+                    break;
+                }
+            }
+        }
+    }
 
 }
