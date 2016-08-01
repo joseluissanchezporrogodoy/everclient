@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,9 +32,17 @@ import com.evernote.edam.type.NoteSortOrder;
 import com.evernote.edam.type.Notebook;
 import com.example.joseluissanchez_porrogodoy.everclient.R;
 import com.example.joseluissanchez_porrogodoy.everclient.adapter.NoteListAdapter;
+import com.example.joseluissanchez_porrogodoy.everclient.activity.DetailNoteActivity;
 
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MainActivity extends AppCompatActivity implements EvernoteLoginFragment.ResultCallback {
 
@@ -65,9 +74,14 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
             return;
         }
         listViewiew = (ListView)findViewById(R.id.listView);
-
-      findNotes(SORT_ALPHABETICAL);
-
+        findNotes(SORT_ALPHABETICAL);
+        listViewiew.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Note note = adapter.getItem(i);
+                goToDetail(note);
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -130,8 +144,38 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
     }
 
 
+    private void goToDetail(final Note note){
+        final NoteRef mNoteRef;
+        EvernoteNoteStoreClient noteStoreClient = EvernoteSession.getInstance().getEvernoteClientFactory().getNoteStoreClient();
+        noteStoreClient.getNoteContentAsync(note.getGuid(), new EvernoteCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Intent intent = new Intent(getApplicationContext(), DetailNoteActivity.class);
+                intent.putExtra(DetailNoteActivity.EXTRA_TITLE,note.getTitle());
+                intent.putExtra(DetailNoteActivity.EXTRA_CONTENT,getContentString(result));
+                startActivity(intent);
+            }
 
+            @Override
+            public void onException(Exception exception) {
+                //mostrar mensaje de error
+            }
+        });
 
+    }
+    public String getContentString(String contentXml){
+        try{
+            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            InputSource src = new InputSource();
+            src.setCharacterStream(new StringReader(contentXml));
+            Document doc = builder.parse(src);
+            String content = doc.getElementsByTagName("en-note").item(0).getTextContent();
+            return content;
+        }catch (Exception e){
+
+        }
+       return null;
+    }
 
 
 
