@@ -1,4 +1,4 @@
-package com.example.joseluissanchez_porrogodoy.everclient.activity;
+package com.example.joseluissanchez_porrogodoy.everclient.interactor;
 
 import com.evernote.edam.notestore.NoteList;
 import com.evernote.edam.type.Note;

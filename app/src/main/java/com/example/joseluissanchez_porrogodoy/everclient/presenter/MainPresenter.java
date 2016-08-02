@@ -1,4 +1,4 @@
-package com.example.joseluissanchez_porrogodoy.everclient.activity;
+package com.example.joseluissanchez_porrogodoy.everclient.presenter;
 
 import com.evernote.edam.type.Note;
 

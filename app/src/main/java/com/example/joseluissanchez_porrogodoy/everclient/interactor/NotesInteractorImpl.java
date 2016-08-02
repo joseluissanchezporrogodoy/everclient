@@ -1,6 +1,4 @@
-package com.example.joseluissanchez_porrogodoy.everclient.activity;
-
-import android.content.Intent;
+package com.example.joseluissanchez_porrogodoy.everclient.interactor;
 
 import com.evernote.client.android.EvernoteSession;
 import com.evernote.client.android.EvernoteUtil;

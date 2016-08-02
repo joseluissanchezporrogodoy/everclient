@@ -1,4 +1,4 @@
-package com.example.joseluissanchez_porrogodoy.everclient.activity;
+package com.example.joseluissanchez_porrogodoy.everclient.presenter;
 
 /**
  * Created by joseluissanchez-porrogodoy on 2/8/16.

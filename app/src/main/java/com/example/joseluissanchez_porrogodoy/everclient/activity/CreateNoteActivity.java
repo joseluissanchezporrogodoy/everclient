@@ -1,32 +1,16 @@
 package com.example.joseluissanchez_porrogodoy.everclient.activity;
 
 import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.evernote.client.android.EvernoteSession;
-import com.evernote.client.android.EvernoteUtil;
-import com.evernote.client.android.asyncclient.EvernoteCallback;
-import com.evernote.client.android.asyncclient.EvernoteNoteStoreClient;
-import com.evernote.client.conn.mobile.FileData;
-import com.evernote.clients.NoteStoreClient;
-import com.evernote.edam.error.EDAMNotFoundException;
-import com.evernote.edam.error.EDAMUserException;
-import com.evernote.edam.type.Note;
-import com.evernote.edam.type.Notebook;
-import com.evernote.edam.type.Resource;
-import com.evernote.edam.type.ResourceAttributes;
 import com.example.joseluissanchez_porrogodoy.everclient.R;
+import com.example.joseluissanchez_porrogodoy.everclient.presenter.CreateNotePresenter;
+import com.example.joseluissanchez_porrogodoy.everclient.presenter.CreateNotePresenterImpl;
+import com.example.joseluissanchez_porrogodoy.everclient.view.CreateNoteView;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 
 public class CreateNoteActivity extends AppCompatActivity implements CreateNoteView {
     private EditText etTitle;

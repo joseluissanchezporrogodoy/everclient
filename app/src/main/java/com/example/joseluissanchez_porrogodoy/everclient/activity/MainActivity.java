@@ -2,15 +2,9 @@ package com.example.joseluissanchez_porrogodoy.everclient.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,30 +13,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.evernote.client.android.EvernoteSession;
-import com.evernote.client.android.asyncclient.EvernoteCallback;
-import com.evernote.client.android.asyncclient.EvernoteNoteStoreClient;
-import com.evernote.client.android.asyncclient.EvernoteSearchHelper;
 import com.evernote.client.android.login.EvernoteLoginFragment;
-import com.evernote.client.android.type.NoteRef;
-import com.evernote.edam.notestore.NoteFilter;
 import com.evernote.edam.notestore.NoteList;
-import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
-import com.evernote.edam.type.NoteSortOrder;
-import com.evernote.edam.type.Notebook;
 import com.example.joseluissanchez_porrogodoy.everclient.R;
 import com.example.joseluissanchez_porrogodoy.everclient.adapter.NoteListAdapter;
-import com.example.joseluissanchez_porrogodoy.everclient.activity.DetailNoteActivity;
-
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import com.example.joseluissanchez_porrogodoy.everclient.presenter.MainPresenter;
+import com.example.joseluissanchez_porrogodoy.everclient.presenter.MainPresenterImpl;
+import com.example.joseluissanchez_porrogodoy.everclient.view.MainView;
 
 public class MainActivity extends AppCompatActivity implements MainView, EvernoteLoginFragment.ResultCallback {
 
