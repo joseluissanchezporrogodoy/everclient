@@ -149,8 +149,8 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
     }
 
 
+
     private void goToDetail(final Note note){
-        final NoteRef mNoteRef;
         EvernoteNoteStoreClient noteStoreClient = EvernoteSession.getInstance().getEvernoteClientFactory().getNoteStoreClient();
         noteStoreClient.getNoteContentAsync(note.getGuid(), new EvernoteCallback<String>() {
             @Override
