@@ -44,19 +44,24 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-public class MainActivity extends AppCompatActivity implements EvernoteLoginFragment.ResultCallback {
+public class MainActivity extends AppCompatActivity implements MainView, EvernoteLoginFragment.ResultCallback {
 
     private ListView listViewiew;
     private NoteListAdapter adapter;
     public static final int SORT_ALPHABETICAL = 4;
     public static final int SORT_EDIT = 2;
     private static final int REQUEST_CODE_ADD=10;
+    private MainPresenter presenter;
+
 
     public static void launch(Activity activity) {
         activity.startActivity(new Intent(activity, MainActivity.class));
     }
 
-
+    @Override protected void onResume() {
+        super.onResume();
+       presenter.onResume();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,15 +82,16 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
             // LoginChecker will call finish
             return;
         }
+        presenter = new MainPresenterImpl(this);
         listViewiew = (ListView)findViewById(R.id.listView);
-        findNotes(SORT_ALPHABETICAL);
         listViewiew.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Note note = adapter.getItem(i);
-                goToDetail(note);
+                presenter.onItemClicked(note);
             }
         });
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,11 +107,11 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
 
 
         if (id == R.id.action_alphabetics) {
-            findNotes(SORT_ALPHABETICAL);
+            presenter.onOptionSortSelected(SORT_ALPHABETICAL);
             return true;
         }
         if (id == R.id.action_edition) {
-            findNotes(SORT_EDIT);
+            presenter.onOptionSortSelected(SORT_EDIT);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -119,67 +125,18 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
         toast.show();
     }
 
-    public void findNotes(int sortMode){
-        if (!EvernoteSession.getInstance().isLoggedIn()) {
-            return;
-        }
-
-        NoteFilter filter = new NoteFilter();
-
-        if(sortMode == 4)
-            filter.setOrder(NoteSortOrder.TITLE.getValue());
-        else
-            filter.setOrder(NoteSortOrder.UPDATED.getValue());
-
-
-        EvernoteNoteStoreClient noteStoreClient = EvernoteSession.getInstance().getEvernoteClientFactory().getNoteStoreClient();
-        noteStoreClient.findNotesAsync(filter, 0, 100, new EvernoteCallback<NoteList>() {
-            @Override
-            public void onSuccess(final NoteList noteList) {
-                adapter = new NoteListAdapter(getApplicationContext(),noteList.getNotes());
-                listViewiew.setAdapter(adapter);
-            }
-
-            @Override
-            public void onException(Exception e) {
-                ///mostrar mensaje de error
-            }
-        });
-
+    @Override
+    public void setItems(NoteList noteList) {
+        adapter = new NoteListAdapter(getApplicationContext(),noteList.getNotes());
+        listViewiew.setAdapter(adapter);
     }
 
-
-
-    private void goToDetail(final Note note){
-        EvernoteNoteStoreClient noteStoreClient = EvernoteSession.getInstance().getEvernoteClientFactory().getNoteStoreClient();
-        noteStoreClient.getNoteContentAsync(note.getGuid(), new EvernoteCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Intent intent = new Intent(getApplicationContext(), DetailNoteActivity.class);
-                intent.putExtra(DetailNoteActivity.EXTRA_TITLE,note.getTitle());
-                intent.putExtra(DetailNoteActivity.EXTRA_CONTENT,getContentString(result));
-                startActivity(intent);
-            }
-
-            @Override
-            public void onException(Exception exception) {
-                //mostrar mensaje de error
-            }
-        });
-
-    }
-    public String getContentString(String contentXml){
-        try{
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            InputSource src = new InputSource();
-            src.setCharacterStream(new StringReader(contentXml));
-            Document doc = builder.parse(src);
-            String content = doc.getElementsByTagName("en-note").item(0).getTextContent();
-            return content;
-        }catch (Exception e){
-
-        }
-       return null;
+    @Override
+    public void goToDetail(String title, String content) {
+        Intent intent = new Intent(getApplicationContext(), DetailNoteActivity.class);
+        intent.putExtra(DetailNoteActivity.EXTRA_TITLE,title);
+        intent.putExtra(DetailNoteActivity.EXTRA_CONTENT,content);
+        startActivity(intent);
     }
 
     @Override
@@ -191,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements EvernoteLoginFrag
             switch (requestCode) {
                 case REQUEST_CODE_ADD: {
                     ////Recargar Lista
-                    findNotes(SORT_ALPHABETICAL);
+                    presenter.onAddNoteResult();
                     break;
                 }
             }
