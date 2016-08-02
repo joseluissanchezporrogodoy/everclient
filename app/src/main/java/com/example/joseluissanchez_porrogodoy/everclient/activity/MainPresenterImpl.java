@@ -57,8 +57,4 @@ public class MainPresenterImpl implements MainPresenter, NotesInteractor.OnFinis
         }
     }
 
-    @Override
-    public void onNoteAddlFinished() {
-
-    }
 }

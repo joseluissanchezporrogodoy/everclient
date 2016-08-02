@@ -12,10 +12,14 @@ public interface NotesInteractor {
     interface OnFinishedListener {
         void onNotesListLoadFinished(NoteList noteList);
         void onNoteDetailFinished(String title, String content);
+
+    }
+    interface OnAddFinishedListener {
+
         void onNoteAddlFinished();
     }
 
     void findItems(OnFinishedListener listener,int type);
     void getDetail(OnFinishedListener listener, Note note);
-    void addNote(OnFinishedListener listener,String title, String content);
+    void addNote(OnAddFinishedListener listener,String title, String content);
 }

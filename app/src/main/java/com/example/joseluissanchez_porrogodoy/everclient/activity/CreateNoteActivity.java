@@ -28,47 +28,36 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-public class CreateNoteActivity extends AppCompatActivity {
+public class CreateNoteActivity extends AppCompatActivity implements CreateNoteView {
     private EditText etTitle;
     private EditText etContent;
     private Button btAccept;
+    private CreateNotePresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
+        presenter = new CreateNotePresenterImpl(this);
         etTitle = (EditText)findViewById(R.id.etTitle);
         etContent = (EditText)findViewById(R.id.etContent);
         btAccept = (Button)findViewById(R.id.btAccept);
         btAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveNote();
+                presenter.onAddButtonCliked(etTitle.getText().toString(),etContent.getText().toString());
             }
         });
-       // recognitionHandWriting();
-    }
 
-    private void saveNote(){
-        Note note= new Note();
-        note.setTitle(etTitle.getText().toString());
-        String nBody = EvernoteUtil.NOTE_PREFIX+ etContent.getText().toString() + EvernoteUtil.NOTE_SUFFIX;
-        note.setContent(nBody);
-        EvernoteNoteStoreClient noteStoreClient = EvernoteSession.getInstance().getEvernoteClientFactory().getNoteStoreClient();
-        noteStoreClient.createNoteAsync(note, new EvernoteCallback<Note>() {
-            @Override
-            public void onSuccess(Note result) {
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-
-            @Override
-            public void onException(Exception exception) {
-                //mostrar mensaje de error
-
-            }
-        });
     }
 
 
+
+
+
+    @Override
+    public void addNote() {
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 }

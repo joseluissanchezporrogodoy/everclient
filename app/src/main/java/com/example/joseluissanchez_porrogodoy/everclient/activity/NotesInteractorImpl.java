@@ -70,7 +70,7 @@ public class NotesInteractorImpl implements NotesInteractor {
     }
 
     @Override
-    public void addNote(final OnFinishedListener listener,String title, String content) {
+    public void addNote(final OnAddFinishedListener listener,String title, String content) {
         Note note= new Note();
         note.setTitle(title);
         String nBody = EvernoteUtil.NOTE_PREFIX+ content + EvernoteUtil.NOTE_SUFFIX;
