@@ -6,4 +6,6 @@
     <string name="detail_note_title">Título</string>
     <string name="detail_note_content">Contenido</string>
     <string name="accept">Aceptar</string>
+    <string name="keyboard">Teclado</string>
+    <string name="hand">A mano</string>
 </resources>

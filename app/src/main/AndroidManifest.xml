@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".activity.DetailNoteActivity" />
         <activity android:name=".activity.CreateNoteActivity"></activity>
+        <activity android:name=".activity.HandWritingActivity" />
     </application>
 
 </manifest>
