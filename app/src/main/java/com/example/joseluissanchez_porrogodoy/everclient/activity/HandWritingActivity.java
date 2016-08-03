@@ -185,7 +185,10 @@ public class HandWritingActivity extends AppCompatActivity implements View.OnCli
     }
 
 
-
+    ///Si se llama a este metodo con el guid de la imagen guardada en la nota obtenemos el resultado del OCR de evernote, este no es un resultado
+    ///instantáneo pero como aproximación incluyo el método. Lo he probado con alguna imagen y funciona reguleras. Una vez tenemos la respuesta
+    // hay que elegir el que mejor coheficiente tenga. Este proceso se de recoger la info del ocr se puede hacer cuando se va amostrar la nota
+    ///https://dev.evernote.com/doc/articles/image_recognition.php
 
     private void recognitionHandWriting(String guid) {
 

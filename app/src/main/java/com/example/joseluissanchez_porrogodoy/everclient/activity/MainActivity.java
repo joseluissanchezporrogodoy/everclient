@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.evernote.client.android.EvernoteSession;
+import com.evernote.client.android.asyncclient.EvernoteCallback;
+import com.evernote.client.android.asyncclient.EvernoteNoteStoreClient;
 import com.evernote.client.android.login.EvernoteLoginFragment;
 import com.evernote.edam.notestore.NoteList;
 import com.evernote.edam.type.Note;
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements MainView, Evernot
         });
 
     }
+
     private void showDialog(){
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog);

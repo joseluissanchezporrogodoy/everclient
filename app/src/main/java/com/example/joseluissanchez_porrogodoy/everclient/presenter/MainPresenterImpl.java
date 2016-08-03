@@ -9,7 +9,7 @@ import com.example.joseluissanchez_porrogodoy.everclient.interactor.NotesInterac
 /**
  * Created by joseluissanchez-porrogodoy on 2/8/16.
  */
-public class MainPresenterImpl implements MainPresenter, NotesInteractor.OnFinishedListener {
+public class  MainPresenterImpl implements MainPresenter, NotesInteractor.OnFinishedListener {
     public static final int SORT_EDIT = 2;
     private MainView mainView;
     private NotesInteractor findNotesInteractor;
