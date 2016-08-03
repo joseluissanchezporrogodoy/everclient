@@ -1,6 +1,7 @@
 package com.example.joseluissanchez_porrogodoy.everclient.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -24,8 +25,11 @@ import com.evernote.edam.type.ResourceAttributes;
 import com.example.joseluissanchez_porrogodoy.everclient.R;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class CreateNoteActivity extends AppCompatActivity {
@@ -75,6 +79,10 @@ public class CreateNoteActivity extends AppCompatActivity {
         final Note note = new Note();
         note.setTitle(etTitle.getText().toString());
         try {
+//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+//            byte[] bitmapdata = bos.toByteArray();
+//            in = new ByteArrayInputStream(bitmapdata);
             // Hash the data in the image file. The hash is used to reference the file in the ENML note content.
             in = new BufferedInputStream(new FileInputStream(mImageData.getPath()));
             FileData data = new FileData(EvernoteUtil.hash(in), new File(mImageData.getPath()));

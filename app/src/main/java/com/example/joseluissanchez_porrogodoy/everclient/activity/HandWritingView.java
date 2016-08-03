@@ -112,21 +112,6 @@ public class HandWritingView extends View {
     }
 
 
-    public void setLastBrushSize(float lastSize){
-        lastBrushSize=lastSize;
-    }
-    public float getLastBrushSize(){
-        return lastBrushSize;
-    }
-
-
-    public void setErase(boolean isErase){
-        erase=isErase;
-        if(erase)
-            drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        else
-            drawPaint.setXfermode(null);
-    }
 
     //Inicializa el cuadro para pintar
     public void startNew(){
