@@ -1,6 +1,7 @@
 package com.example.joseluissanchez_porrogodoy.everclient.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -50,8 +52,9 @@ public class MainActivity extends AppCompatActivity implements MainView, Evernot
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
-                startActivityForResult(intent,REQUEST_CODE_ADD);
+//                Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+//                startActivityForResult(intent,REQUEST_CODE_ADD);
+                showDialog();
             }
         });
         if (!EvernoteSession.getInstance().isLoggedIn()) {
@@ -68,6 +71,28 @@ public class MainActivity extends AppCompatActivity implements MainView, Evernot
             }
         });
 
+    }
+    private void showDialog(){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog);
+        Button keyButton =(Button) dialog.findViewById(R.id.btKey);
+        keyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+                startActivityForResult(intent,REQUEST_CODE_ADD);
+            }
+        });
+        Button handButton= (Button)dialog.findViewById(R.id.btHand);
+        handButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Llamar a la activity de dibujo
+                Intent intent = new Intent(getApplicationContext(), HandWritingActivity.class);
+                startActivity(intent);
+            }
+        });
+        dialog.show();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
