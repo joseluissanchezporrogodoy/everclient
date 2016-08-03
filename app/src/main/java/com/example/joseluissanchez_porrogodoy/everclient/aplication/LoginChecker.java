@@ -32,7 +32,6 @@ public class LoginChecker implements Application.ActivityLifecycleCallbacks {
         if (!EvernoteSession.getInstance().isLoggedIn() && !isIgnored(activity)) {
             mCachedIntent = activity.getIntent();
             MainActivity.launch(activity);
-
             activity.finish();
         }
     }
