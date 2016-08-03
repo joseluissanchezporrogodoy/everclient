@@ -27,6 +27,7 @@ import com.example.joseluissanchez_porrogodoy.everclient.view.MainView;
 public class MainActivity extends AppCompatActivity implements MainView, EvernoteLoginFragment.ResultCallback {
 
     private ListView listViewiew;
+
     private NoteListAdapter adapter;
     public static final int SORT_ALPHABETICAL = 4;
     public static final int SORT_EDIT = 2;
@@ -73,12 +74,13 @@ public class MainActivity extends AppCompatActivity implements MainView, Evernot
 
     }
     private void showDialog(){
-        Dialog dialog = new Dialog(this);
+        final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog);
         Button keyButton =(Button) dialog.findViewById(R.id.btKey);
         keyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog.dismiss();
                 Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
                 startActivityForResult(intent,REQUEST_CODE_ADD);
             }
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements MainView, Evernot
             @Override
             public void onClick(View view) {
                 //Llamar a la activity de dibujo
+                dialog.dismiss();
                 Intent intent = new Intent(getApplicationContext(), HandWritingActivity.class);
                 startActivity(intent);
             }
@@ -149,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements MainView, Evernot
             switch (requestCode) {
                 case REQUEST_CODE_ADD: {
                     ////Recargar Lista
+
                     presenter.onAddNoteResult();
                     break;
                 }
